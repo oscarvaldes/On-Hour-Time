@@ -18,7 +18,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 float-left">
             <h3>Why use On-Hour-Time? </h3>
             <p>On-Hour-Time is a web-based application intended to provide a simplified form of online scheduling and
                 availability. Our mission is to provide users with an efficient way to invite friends/co-workers and
@@ -26,12 +26,19 @@
                 to compare availabilities. It can be used by but is not limited to students, teachers, recruiters, and
                 your every-day soccer mom. </p>
         </div>
-        <div class="col-md-4 float-md-right">
+        <div id="login-card" class="col-md-4 col-md-offset-4">
             <h3>Member Login</h3>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <form>
+                        <input type="email" name="email" placeholder="Email"><br><br>
+                        <input type="password" name="password" placeholder="Password"><br><br>
+                        <input id="login" type="submit" name="login" class="btn-primary" value="Login">
+                        <a href="#">Register</a>
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 
