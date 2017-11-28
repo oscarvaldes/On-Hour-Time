@@ -9,7 +9,7 @@ var express = require('express'),
     app = express();
 
 app.use(cors());
-app.use(favicon('./src/favicon.ico'));
+app.use(favicon('./client/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../dist/')));
+app.use(express.static(path.join(__dirname, '../client')));
 app.use('/scheduler', scheduler);
 
 // catch 404 and forward to error handler
