@@ -84,11 +84,14 @@
 	function makeDayNames() {
 		let i = 0;
 		let result = ["<thead>"];
+		let day = moment.unix(calendarStartDate).startOf("day")
 		while (i < 7) {
-			result.push(`<th>${formatDate(calendarStartDate + (i * 60 * 60 * 24))}</th>`);
+			result.push(`<th>${day.format("ddd MM/DD")}</th>`);
+			day.add(1, "d");
 			i++;
 		}
 		result.push("</thead>");
+		console.log(`result: ${result}`);
 		return result.join("");
 	}
 
