@@ -11,7 +11,15 @@ $(document).ready(function () {
             data: data,                         // our data object
             dataType: 'text'                    // what type of data do we expect back from the server
         }).done(function (data, _, out) {
-            console.log(data);
+            if (data === 'false'){
+                $('#login-alert').show();
+            }
+            else if(data ==='password'){
+                $('#password-alert').show();
+            }
+            else{
+                window.location.href = "http://localhost:3000/createEventPage.html";//change to landing page
+            }
 
 
         }).fail(function (data) {

@@ -16,6 +16,14 @@ body {
 #subtitle{
     color: white;
 }
+#login-alert{
+    display: none;
+    width: 172px;
+}
+#password-alert{
+    display: none;
+    width: 172px;
+}
 /*#login-card{*/
 
     /*float:right;*/
