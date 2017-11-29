@@ -5,6 +5,7 @@
     <title>On-Hour-Time</title>
     <script src="./jQuery.js"></script>
     <script src="./bootstrap.min.js"></script>
+    <script src="./bootbox.min.js"></script>
     <script src="./static.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
@@ -27,12 +28,15 @@
             <h2>Register</h2>
             <div class="modal-dialog">
                 <div class="loginmodal-container">
-                    <form>
-                        <input type="registerEmail" name="email" placeholder="Email"><br><br>
-                        <input type="registerPassword" name="password" placeholder="Password"><br><br>
-                        <input id="register" type="submit" name="register" class="btn-primary" value="Register">
-                    </form>
-
+                    <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"><br><br>
+                    <input id="registerPassword" type="text" name="registerPassword" placeholder="Password"><br><br>
+                    <input id="confirmPassword" type="password" name="confirmPassword"
+                           placeholder="Confirm Password"><br><br>
+                    <input id="register" type="submit" name="register" class="btn-primary" value="Register">
+                    <div class="alert alert-danger" id="warning-alert">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>User Already Exists!</strong>
+                    </div>
                 </div>
             </div>
         </div>

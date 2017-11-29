@@ -4,7 +4,6 @@ body {
     width: 100%;
     height: 100%;
     margin: 0;
-    overflow:hidden;
     font-family: 'Open Sans', sans-serif;
 }
 .jumbotron{
@@ -16,4 +15,8 @@ body {
 }
 #subtitle{
     color: white;
+}
+#warning-alert{
+    display: none;
+    width: 172px;
 }
