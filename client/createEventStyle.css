@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    /*overflow:hidden;*/
+    font-family: 'Open Sans', sans-serif;
+}
+.jumbotron{
+    background-color: #42f4df;
+}
+#title{
+    color: white;
+    font-family: 'Indie Flower', cursive;
+}
+#subtitle{
+    color: white;
+}
+/*#login-card{*/
+
+    /*float:right;*/
+    /*!*margin-left: .5em;*!*/
+    /*!*margin-right: .5em;*!*/
+/*}*/
+
+.container{
+    display: none;
+
+}
+
+
+#scheduleBorder{
+    width: 90px;
+    text-align: center;
+}
+
+#eventName{
+    width: 300px;
+
+}
+
+#description{
+    width: 300px;
+    height: 150px;
+
+}
+
+#mainCont{
+
+    /*background-color: blue;*/
+    margin-left: 15%;
+}
+
+#midCont{
+
+    /*background-color: blue;*/
+    margin-left: 4%;
+}
+
+#mainCreateEvent{
+    margin-left: 46%;
+}
+
+#createEvent{
+    border: 2px;
+    border-style: solid;
+    text-align: center;
+    display: inline;
+    padding: 1em
+}
+#createEvent:hover{
+    background-color: lightgray;
+}
+.selected{
+    background-color: blue;
+}

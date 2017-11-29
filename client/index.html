@@ -2,17 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GroceryListManager</title>
+    <title>On-Hour-Time</title>
     <script src="./jQuery.js"></script>
-    <script src="./static.js"></script>
     <script src="./bootstrap.min.js"></script>
+    <script src="./bootbox.min.js"></script>
+    <script src="./static.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="jumbotron">
-    <h1 class="text-center">On-Hour-Time</h1>
+    <h1 id="title" class="text-center">On-Hour-Time</h1>
+    <h6 id="subtitle" class="text-center">scheduling made easy</h6>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 float-left">
+            <h3>Why use On-Hour-Time? </h3>
+            <p>On-Hour-Time is a web-based application intended to provide a simplified form of online scheduling and
+                availability. Our mission is to provide users with an efficient way to invite friends/co-workers and
+                compare availabilities. On-Hour-Time can be used by any user who is looking for a fast and efficient way
+                to compare availabilities. It can be used by but is not limited to students, teachers, recruiters, and
+                your every-day soccer mom. </p>
+        </div>
+        <div id="login-card" class="col-md-4 col-md-offset-4">
+            <h3>Member Login</h3>
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+
+                    <input id="email" type="email" name="email" placeholder="Email" required><br><br>
+                    <input id="password" type="password" name="password" placeholder="Password" required><br><br>
+                    <input id="login" type="submit" name="login" class="btn-primary" value="Login">
+                    <a href="./registerPage.html">Register</a>
+                    <div class="alert alert-danger" id="login-alert">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>Email not Found!</strong>
+                    </div>
+                    <div class="alert alert-danger" id="password-alert">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>Wrong Password!</strong>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; On-Hour-Time 2017</p>
+    </footer>
+</div>
+
 
 </body>
 </html>

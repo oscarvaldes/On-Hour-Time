@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>On-Hour-Time</title>
+    <script src="./jQuery.js"></script>
+    <script src="./bootstrap.min.js"></script>
+    <script src="./createEvent.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="createEventStyle.css">
+    <link rel="stylesheet" href="jquery-ui.min.css">
+    <script src="jquery-ui.min.js"></script>
+</head>
+<body>
+<div class="jumbotron">
+    <h1 id="title" class="text-center">On-Hour-Time</h1>
+    <h6 id="subtitle" class="text-center">scheduling made easy</h6>
+</div>
+
+<div id="mainCreateEvent">
+    <p id="createEvent">Create Event</p><br><br>
+        <div>
+            <h3>Your Events</h3>
+        </div>
+</div>
+
+
+<div class="container">
+    <div id="mainCont" class="row">
+        <div class="col-md-4 float-left">
+                <h2>Details</h2>
+                <input id="eventName" type="text" name="eventName" placeholder="Event Name"><br><br>
+                <textarea id="description" name="description" placeholder="Description"></textarea><br><br>
+
+            <input type="text" placeholder="Date of Event" id="datepicker">
+        </div>
+
+
+        <div id="midCont" class="col-md-3 col-md-offset-1">
+            <h3>Add Participants </h3>
+            <input type="text" placeholder="Participant Email"/><br>
+            <input id="addParticipant" type="submit" name="addParticipant"  value="Add"><br><br>
+            <h5>Participants</h5>
+
+        </div>
+
+
+        <div id="login-card" class="col-md-4 col-md-offset-4">
+            <h3>Availabilities</h3>
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+
+
+                   <table id="scheduleBorder" border="1">
+
+                       <tr>
+                           <td>AM</td>
+                           <td>PM</td>
+                       </tr>
+                       <tr>
+                           <td>12</td>
+                           <td>12</td>
+                       </tr>
+                       <tr>
+                           <td>1</td>
+                           <td>1</td>
+                       </tr>
+                       <tr>
+                           <td>2</td>
+                           <td>2</td>
+                       </tr>
+                       <tr>
+                           <td>3</td>
+                           <td>3</td>
+                       </tr>
+                       <tr>
+                           <td>4</td>
+                           <td>4</td>
+                       </tr>
+                       <tr>
+                           <td>5</td>
+                           <td>5</td>
+                       </tr>
+                       <tr>
+                           <td>6</td>
+                           <td>6</td>
+                       </tr>
+                       <tr>
+                           <td>7</td>
+                           <td>7</td>
+                       </tr>
+                       <tr>
+                           <td>8</td>
+                           <td>8</td>
+                       </tr>
+                       <tr>
+                           <td>9</td>
+                           <td>9</td>
+                       </tr>
+                       <tr>
+                           <td>10</td>
+                           <td>10</td>
+                       </tr>
+                       <tr>
+                           <td>11</td>
+                           <td>11</td>
+                       </tr>
+                   </table><br><br>
+                    <input id="scheduleSubmit" type="submit" name="scheduleSubmit" class="btn-primary" value="Create Event">
+                    <input id="cancelSubmit" type="submit" name="cancelSubmit" value="Cancel">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <hr>
+
+    <footer>
+        <p>&copy; On-Hour-Time 2017</p>
+    </footer>
+</div>
+
+
+</body>
+</html>

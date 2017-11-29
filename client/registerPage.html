@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>On-Hour-Time</title>
+    <script src="./jQuery.js"></script>
+    <script src="./bootstrap.min.js"></script>
+    <script src="./bootbox.min.js"></script>
+    <script src="./static.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="registerPageStyle.css">
+</head>
+<body>
+<div class="jumbotron">
+    <h1 id="title" class="text-center">On-Hour-Time</h1>
+    <h6 id="subtitle" class="text-center">scheduling made easy</h6>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 float-left">
+
+        </div>
+
+
+        <div id="login-card" class="col-md-4 col-md-offset-4">
+            <h2>Register</h2>
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"><br><br>
+                    <input id="registerPassword" type="text" name="registerPassword" placeholder="Password"><br><br>
+                    <input id="confirmPassword" type="password" name="confirmPassword"
+                           placeholder="Confirm Password"><br><br>
+                    <input id="register" type="submit" name="register" class="btn-primary" value="Register">
+                    <div class="alert alert-danger" id="warning-alert">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <strong>User Already Exists!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; On-Hour-Time 2017</p>
+    </footer>
+</div>
+
+
+</body>
+</html>

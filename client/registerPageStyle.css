@@ -16,17 +16,7 @@ body {
 #subtitle{
     color: white;
 }
-#login-alert{
+#warning-alert{
     display: none;
     width: 172px;
 }
-#password-alert{
-    display: none;
-    width: 172px;
-}
-/*#login-card{*/
-
-    /*float:right;*/
-    /*!*margin-left: .5em;*!*/
-    /*!*margin-right: .5em;*!*/
-/*}*/
