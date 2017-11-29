@@ -29,6 +29,7 @@ db.connect(function (err) {
         console.log('Error connecting database: ' + err);
     }
 }); //db.connect
+
 router.post('/', function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;

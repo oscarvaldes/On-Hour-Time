@@ -1,0 +1,160 @@
+<style type="text/css">
+
+	#calendar * {
+		font-family: Helvetica;
+	}
+
+	table {
+		border: 1px solid #979797;
+		border-radius: 4px;
+	}
+
+	thead {
+		background: #D8D8D8;
+	}
+
+	th {
+		padding: 20px 0;
+		border-right: 1px solid #979797;
+	}
+
+	th:last-child {
+		border-right: 0;
+	}
+
+	.hour {
+		transition: 0.25s all;
+		padding: 8px 0;
+		text-align: center;
+		user-select: none;
+		cursor: pointer;
+		background: #EFEFEF;
+		border-right: 0.5px solid #979797;
+		border-bottom: 0.5px solid #979797;
+	}
+
+	table tr:first-child td {
+		border-top: 1px solid #979797;
+	}
+	table tr:last-child td {
+		border-bottom: 0;
+	}
+
+	table tr td:last-child {
+		border-right: 0;
+	}
+
+	.hour.selected {
+		background: lightgreen;
+	}
+
+	.hour:before, .hour:after {
+		content: '   ';
+		white-space: pre;
+	}
+
+	.hour.selected:after {
+		content: "✓";
+	}
+
+	.hour.conflicted {
+		background: yellow;
+	}
+
+	.hour.no-conflicts {
+		background: lightgreen;
+		cursor: pointer !important;
+	}
+
+	.final-selection {
+		border: 3px dashed red;
+	}
+</style>
+
+<div id="calendar"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js"></script>
+<script>
+	const calendarStartDate = <%= locals.startDate %>;
+	function makeDayNames() {
+		let i = 0;
+		let result = ["<thead>"];
+		while (i < 7) {
+			result.push(`<th>${formatDate(calendarStartDate + (i * 60 * 60 * 24))}</th>`);
+			i++;
+		}
+		result.push("</thead>");
+		return result.join("");
+	}
+
+	function makeRowForHour (hour) {
+		let result = ["<tbody>"];
+
+		for (var hour = 0; hour < 15; hour++) {
+			let hourRow = ["<tr>"]
+			for (var dayOffset = 0; dayOffset < 7; dayOffset++) {
+				const hourElement = moment.unix(calendarStartDate).add(dayOffset, 'days').hour(hour + 8).minute(0).second(0)
+				hourRow.push(`
+					<td class="hour" data-time="${hourElement.format('X')}">
+						${hourElement.format("hh:mm A")}
+					</td>`)
+			}
+			hourRow.push("</tr>");
+			result.push(hourRow.join(""));
+		}
+		result.push("</tbody>");
+		return result.join("");
+	}
+
+	function makeCalendar() {
+		return `<table width="100%" cellspacing="0">${makeDayNames()} ${makeRowForHour()}</table>`
+	}
+
+	$("#calendar").html(makeCalendar());
+
+	let timesSelected = [];
+	<% if (locals.heatmapData !== undefined) { %>
+		const heatmapData = <%- JSON.stringify(heatmapData) %>
+		const max = Object.values(heatmapData).reduce((a, b) => Math.max(a, b), -Infinity);
+		Object.keys(heatmapData).forEach( (k) => {
+			const el = $(`.hour[data-time="${k}"]`)
+			if (heatmapData[k] != max) {
+				el.text(`${el.text()} (${max-heatmapData[k]} busy)`);
+				el.addClass("conflicted");
+			} else {
+				el.text(`${el.text()} (all free)`);
+				el.addClass("no-conflicts");
+			}
+		});
+
+		let finalSelection = null;
+
+		$(".no-conflicts").click(function (e) {
+			finalSelection = $(this).attr('data-time');
+			$(this).addClass("final-selection");
+			$(".no-conflicts").not(this).removeClass("final-selection");
+		});
+	<% } %>
+		
+
+	<% if (locals.interactable === true) { %>
+		$(".hour").click( function (e) {
+			const ts = $(this).attr("data-time");
+			$(this).toggleClass("selected");
+			refreshSelected();
+		});
+	<% } %>
+
+	function refreshSelected() {
+		timesSelected = [];
+		$(".selected").each(function (e) {
+			console.log(`$(this).attr("data-time")): ${Number($(this).attr("data-time"))}`);
+			timesSelected.push($(this).attr("data-time"));
+		});
+	}
+
+	function formatDate(unixTs) {
+		return moment.unix(unixTs/1000).format("ddd MM/DD");
+	}
+</script>

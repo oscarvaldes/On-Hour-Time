@@ -1,0 +1,102 @@
+<%- include("partials/header", {
+	"title": "Login",
+	"hideNav": true
+}) %>
+
+<style type="text/css">
+	#home_header {
+		background: #50E3C2;
+		color: white;
+		height: 236px;
+		width: 100%;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	#description {
+		flex: 4;
+		padding: 40px;
+	}
+
+	#login {
+		margin: 40px;
+		border-left: 1px solid #c0c0c0;
+		border-radius: 4px;
+		padding: 40px;
+		flex: 1;
+	}
+
+	.col-2 {
+		display: flex;
+	}
+
+	#testimonials-h1 {
+		padding-left: 40px;
+		margin: 0;
+	}
+
+	#testimonials {
+		padding: 40px;
+	}
+
+	.testimonial {
+		padding: 20px;
+		max-width: 300px;
+		border: 1px solid #C0C0C0;
+		border-radius: 4px;
+		margin-right: 20px;
+	}
+</style>
+
+<div id="home_header">
+	<span class="logo">
+		On Hour Time!
+	</span>
+	scheduling made easy
+</div>
+
+<div class="col-2">
+	<div id="description">
+		<h2>Why use on hour time?</h2>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</div>
+
+	<div id="login">
+		<form action="dashboard" method="get">
+			<h2>Member Login</h2>
+			<label for="email">Email</label><br>
+			<input type="email" name="email" id="email"><br>
+
+			<br>
+
+			<label for="password">Password</label><br>
+			<input type="password" name="password" id="password">
+
+			<br>
+
+			<input type="submit">
+		</form>
+	</div>
+</div>
+
+<h1 id="testimonials-h1">Testimonials</h1>
+<div id="testimonials" class="col-2">
+	<div class="testimonial">On Hour Time worked wonders for our business!<br><br>Tom<br>Small Business Owner</div>
+	<div class="testimonial">If you don't use this app, you must be high or something!<br><br>Bill<br>Satisfied Customer</div>
+	<div class="testimonial">If you don't use this app, you must be high or something!<br><br>Bill<br>Satisfied Customer</div>
+</div>
+
+<script>
+	function main() {
+	}
+</script>
+
+<%- include("partials/footer") %>

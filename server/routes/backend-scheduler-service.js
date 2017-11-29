@@ -10,11 +10,11 @@ router.use(bodyParser.urlencoded({
   extended: true
 }));
 
-router.post('/', function(req, res, next) {
+// router.post('/', function(req, res, next) {
 
-}); //router.post
-router.get('/', function(req, res, next) {
+// }); //router.post
+// router.get('/', function(req, res, next) {
 
-}); //router.get
+// }); //router.get
 
 module.exports = router;

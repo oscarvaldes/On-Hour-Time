@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node ./server/bin/www",
+    "start": "node server/bin/www",
     "test": "karma start ./karma.conf.js"
   },
   "private": true,
@@ -13,6 +13,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
     "cors": "^2.8.3",
+    "ejs": "^2.5.7",
     "express": "^4.15.3",
     "http-server": "^0.10.0",
     "jade": "^1.11.0",

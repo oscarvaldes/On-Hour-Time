@@ -1,0 +1,144 @@
+<%- include("partials/header", {
+	"title": "New Event"
+}) %>
+
+<style type="text/css">
+	#top {
+	}
+
+	#top h1 {
+		flex: 1;
+	}
+
+	#top button {
+		margin-left: 20px;
+		max-height: 50px;
+	}
+
+	#calendar {
+	}
+
+	#top, #calendar, #bottom {
+		display: flex;
+		max-width: 1032px;
+		margin: auto;
+		padding-top: 20px;
+	}
+
+	form {
+		flex: 2;
+		margin-bottom: 20px;
+	}
+
+	#participants {
+		flex: 1;
+	}
+
+	#calendar td {
+		cursor: default;
+	}
+</style>
+
+<div id="top">
+	<h1>Make an Event</h1>
+	<button>Cancel</button>
+	<button id="submit">Submit</button>
+</div>
+
+<%- include("partials/calendar", {
+	"startDate": Math.round((function(){
+		const d = new Date();
+		d.setHours(0,0,0,0);
+		return d;
+	})().getTime() / 1000),
+	"interactable": false
+}) %>
+
+<div id="bottom">
+	<form>
+		<h1>Details</h1>
+		<label>Title</label><br>
+		<input type="text" id="title">
+		<br><br>
+
+		<label>Description</label><br>
+		<textarea></textarea>
+		<br><br>
+
+		<label>URL for Icon</label><br>
+		<input type="text" id="icon_url">
+	</form>
+
+	<div id="participants">
+		<h1>Participants</h1>
+		<span></span>
+		<ul>
+			<li>Person Name 1 (person@uga.edu)</li>
+		</ul>
+		<input type="email" name="new-participant" placeholder="email@domain.com">
+		<button>Add</button>
+	</div>
+
+	<script type="text/javascript">
+		let participants = [];
+
+		function removeParticipantAtIndex(index) {
+			console.log(`removed participant: ${participants[index]}`);
+			participants.splice(index, 1);
+			refreshParticipants();
+		}
+
+		function refreshParticipants(){
+			console.log(`refreshing participants`);
+
+			if (participants.length < 1) {
+				$("#participants span").text('no participants invited!');
+			} else {
+				$("#participants span").text('');
+			}
+
+			const participantsEl = participants.map( (email, index) => 
+				`<li>${email} <button onClick="removeParticipantAtIndex(${index})">remove</button></li>`
+			).join("");
+
+			$("#participants ul").html(`
+				${participantsEl}
+			`);
+		}
+
+		refreshParticipants();
+
+		$("#participants input").on("keydown", function (e) {
+			if (e.which == 13) {
+				const email = $(this).val();
+				$(this).val('');
+				if (participants.indexOf(email) > -1) {
+					alert("email already invited!")
+					return;
+				} else if (email.indexOf('@') < 0) {
+					alert('invalid email address');
+					return;
+				} else {
+					participants.push(email);
+					refreshParticipants();
+				}
+			}
+		});
+
+		function main() {
+			$("#submit").click(function (e) {
+				const payload = {
+					timesAvailable: timesSelected,
+					participants: participants,
+					title: $("form #title").val(),
+					description: $("form textarea").val(),
+					urlForIcon: $("form #icon_url").val()
+				};
+
+				console.log(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
+			})
+		}
+	</script>
+</div>
+
+<%- include("partials/footer") %>

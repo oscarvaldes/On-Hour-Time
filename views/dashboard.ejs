@@ -1,0 +1,56 @@
+<%- include("partials/header", {
+	"title": "Dashboard"
+}) %>
+
+<style type="text/css">
+	#events {
+		display: flex;
+		max-width: 1032px;
+		margin: auto;
+		flex-flow: wrap;
+	}
+
+	.event {
+		flex: 1;
+		max-width: 238px;
+		background: #EFEFEF;
+		margin: 10px;
+		position: relative;
+	}
+
+	.event-image {
+	}
+
+	.event-description {
+		padding: 20px;
+
+	}
+
+	.new-event {
+		background: #FFFFFF;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px dashed #979797;
+		border-radius: 4px;
+	}
+</style>
+
+<section id="events">
+	<a class="event new-event" href="/event/new">
+		new event
+	</a>
+    <% for (var i = 0; i < events.length; i++) { %>
+    	<a class="event" href="/event/<%= events[i].id %>">
+    		<div class="event-image">
+    			<img src="http://placehold.it/238x194">
+    		</div>
+    		<div class="event-description">
+    			<%= events[i].name %>
+    		</div>
+    	</a>
+	<% } %>
+	</div>
+</section>
+
+<%- include("partials/footer") %>
