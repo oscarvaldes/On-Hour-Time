@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow:hidden;
+    font-family: 'Open Sans', sans-serif;
+}
+.jumbotron{
+    background-color: #42f4df;
+}
+#title{
+    color: white;
+    font-family: 'Indie Flower', cursive;
+}
+#subtitle{
+    color: white;
+}

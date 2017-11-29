@@ -6,6 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser-json'),
     cors = require('cors'),
     scheduler = require('./routes/backend-scheduler-service'),
+    login = require('./routes/login-service'),
     app = express();
 
 app.use(cors());
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client')));
 app.use('/scheduler', scheduler);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
