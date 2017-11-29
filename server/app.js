@@ -10,6 +10,8 @@ var express = require('express'),
     register = require('./routes/register-service'),
     app = express();
 
+const session = require('express-session');
+
 app.use(cors());
 // app.use(favicon('./client/favicon.ico'));
 app.use(logger('dev'));
@@ -22,54 +24,59 @@ app.set('views', 'views');
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
+app.use(session({
+  secret: "ewhfblkhrbrekhagvbr"
+}));
+
+app.use(express.static(path.join(__dirname, '../public')));
 // app.use(express.static(path.join(__dirname, '../client')));
 // app.use('/scheduler', scheduler);
 // app.use('/login', login);
 // app.use('/register', register);
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-
-// // error handlers
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     res.status(err.status || 500);
-//     res.render('error', {
-//       message: err.message,
-//       error: err
-//     });
-//   });
-// }
-
-// // production error handler (no stack-traces)
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {}
-//   });
-// });
-
-app.use(function(req, res, next) {
-  res.locals.user = null;
+app.use(function setAuthLocal(req, res, next) {
+  if (req.session && req.session.user) {
+    res.locals.user = req.session.user;
+  } else {
+    res.locals.users = null;
+  }
   next();
 });
 
-// todo: make authentication work
 app.get(['/', '/login'], function (req, res) {
   res.render("login");
 });
 
-// todo: make authentication work
-app.get('logout', function (req, res) {
+app.post('/login', function (req, res, next) {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  console.log('email', email);
+  console.log('password', password);
+
+  let usersDB = {
+    "aj@gmail.com": ["foo", {id:0, name: "AJ"}],
+    "syed@gmail.com": ["bar", {id: 1, name: "Syed"}],
+    "oscar@gmail.com": ["hello", {id: 2, name: "Oscar"}],
+    "andy@gmail.com": ["world", {id: 3, name: "Andy"}]
+  }
+
+  if (usersDB.hasOwnProperty(email) && usersDB[email][0] == password) {
+    req.session.user = usersDB[email][1];
+    res.redirect('/dashboard'); 
+    return;
+  } else {
+    res.redirect('/');
+    return;
+  }
+}); //router.post
+
+app.get('/logout', require_authentication, function (req, res) {
+  delete req.session.user;
   res.render("login");
 });
 
-app.get('/dashboard', function (req, res) {
+app.get('/dashboard', require_authentication, function (req, res) {
   res.render("dashboard", {
     events: [{
       name: "Study Session",
@@ -79,11 +86,15 @@ app.get('/dashboard', function (req, res) {
 });
 
 
-app.get('/event/new', function (req, res) {
+app.get('/event/new', require_authentication, function (req, res) {
   res.render("make-event");
 });
 
-app.get('/event/:id', function (req, res) {
+app.post('/event/new', require_authentication, function (req, res) {
+  // 
+});
+
+app.get('/event/:id', require_authentication, function (req, res) {
   const heatmap = {};
 
   const user1 = [
@@ -148,7 +159,7 @@ app.get('/event/:id', function (req, res) {
   });
 });
 
-app.get('/participate/:id', function (req, res) {
+app.get('/participate/:id', require_authentication, function (req, res) {
   if (res.locals.user === undefined) {
     res.redirect('/login');
   }
@@ -167,5 +178,15 @@ app.get('/participate/:id', function (req, res) {
   });
 });
 
+// helper functions
+
+function require_authentication(req, res, next) {
+  if (res.locals.user != null) {
+    next();
+  } else {
+    res.redirect('/');
+    return;
+  }
+}
 
 module.exports = app;

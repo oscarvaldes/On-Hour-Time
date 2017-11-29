@@ -11,10 +11,15 @@
 		header {
 			background: #50E3C2;
 			height: 100px;
+			display: flex;
+			align-items: center;
 		}
 
 		header .logo {
 			float: left;
+			font-family: 
+			flex: 1;
+			margin-left: 40px;
 		}
 
 		header nav {
@@ -42,7 +47,7 @@
 	<% if(!locals.hideNav) { %>
 	<header>
 		<a href="/dashboard">
-			<span class="logo">on hour time</span>
+			<img class="logo" src="logo.png"></img>
 		</a>
 			<nav>
 				<% if (locals.user) { %>
