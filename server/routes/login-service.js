@@ -3,6 +3,7 @@ var express = require('express'),
     fs = require('fs'),
     router = express.Router(),
     bodyParser = require('body-parser-json'),
+    session = require('express-session'),
     crypto = require('crypto'),
     passwordHash = require('password-hash'),
     path = require('path'),
@@ -29,6 +30,7 @@ db.connect(function (err) {
         console.log('Error connecting database: ' + err);
     }
 }); //db.connect
+
 router.post('/', function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
@@ -43,15 +45,18 @@ router.post('/', function (req, res, next) {
         }
         else {
             //user exists
-            db.query(getPassword, function(err, rows, fields) {
+            db.query(getPassword, function(err, rows2, fields) {
                 if(err){
                     console.log(err);
                 }
                 //verify here
-                if(passwordHash.verify(password, rows[0].password)){
-                    res.send(true);
+                if(passwordHash.verify(password, rows2[0].password)){
+                    // res.send(true);
+                    req.session.user = rows;
+                    res.redirect('/dashboard');
                 }
                 else{
+                    req.session.user = 1;
                     res.send('password');
                 }
 
