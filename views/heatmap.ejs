@@ -126,6 +126,10 @@
 		});
 
 		function main() {
+			$("#cancel").click(function (e) {
+				window.location = "/dashboard";
+			});
+			
 			$("#submit").click(function (e) {
 				const payload = {
 					finalSelection: finalSelection,

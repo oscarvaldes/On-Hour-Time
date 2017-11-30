@@ -48,7 +48,7 @@
 
 <div id="bottom">
 	<form>
-		<h1><%= event.title %></h1>
+		<h1><%= event.name %></h1>
 		<p><%= event.description %></p>
 		<!-- <label>URL for Icon</label><br>
 		<input type="text" id="icon_url"> -->
@@ -66,10 +66,13 @@
 		function main() {
 			$("#submit").click(function (e) {
 				const payload = {
-					eventId: <%= eventId %>,
-					userId: <%= userId %>,
 					timesAvailable: timesSelected
 				};
+
+				$.post("/participate/<%= event.id %>", payload, function (err, data) {
+					if (err) {console.log(`err: ${err}`);}
+					window.location = '/dashboard';
+				});
 
 				console.log(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
 			})

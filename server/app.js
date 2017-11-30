@@ -55,10 +55,10 @@ app.post('/login', function (req, res, next) {
   console.log('password', password);
 
   let usersDB = {
-    "aj@gmail.com": ["foo", {id:0, name: "AJ"}],
-    "syed@gmail.com": ["bar", {id: 1, name: "Syed"}],
-    "oscar@gmail.com": ["hello", {id: 2, name: "Oscar"}],
-    "andy@gmail.com": ["world", {id: 3, name: "Andy"}]
+    "aj@gmail.com": ["foo", {id:0, name: "AJ", "email": "aj@gmail.com"}],
+    "syed@gmail.com": ["bar", {id: 1, name: "Syed", "email": "syed@gmail.com"}],
+    "oscar@gmail.com": ["hello", {id: 2, name: "Oscar", "email": "oscar@gmail.com"}],
+    "andy@gmail.com": ["world", {id: 3, name: "Andy", "email": "andy@gmail.com"}]
   }
 
   if (usersDB.hasOwnProperty(email) && usersDB[email][0] == password) {
@@ -76,12 +76,24 @@ app.get('/logout', require_authentication, function (req, res) {
   res.render("login");
 });
 
+eventsDB = [{
+    id: 0,
+    startDate: 1511931600,
+    name: "Study Group",
+    description: "foo bar",
+    organizer: {
+      name: "John Doe",
+      email: "aj@gmail.com"
+    },
+    participants: ["syed@gmail.com", "oscar@gmail.com", "andy@gmail.com"],
+    schedules: []
+}]
+
 app.get('/dashboard', require_authentication, function (req, res) {
   res.render("dashboard", {
-    events: [{
-      name: "Study Session",
-      id: "1"
-    }]
+    events: eventsDB.filter(function (event) {
+      return req.session.user.email === event.organizer.email || event.participants.indexOf(req.session.user.email) > -1
+    })
   });
 });
 
@@ -91,91 +103,87 @@ app.get('/event/new', require_authentication, function (req, res) {
 });
 
 app.post('/event/new', require_authentication, function (req, res) {
-  // 
+  req.body.id = eventsDB.length;
+  req.body.organizer = {
+    name: res.locals.user.name,
+    email: res.locals.user.email
+  }
+  eventsDB.push(req.body);
+  console.log(`JSON.stringify(eventsDB): ${JSON.stringify(eventsDB)}`);
+  res.redirect('/dashboard');
 });
 
 app.get('/event/:id', require_authentication, function (req, res) {
+  const e = eventsDB[req.params.id];
+  if (e.participants.indexOf(req.session.user.email) > -1) {
+    res.redirect('/participate/' + req.params.id);
+    return;
+  }
+
   const heatmap = {};
 
-  const user1 = [
-    "1511971200",
-    "1511982000",
-    "1511985600",
-    "1511989200",
-    "1511992800"
-  ]
+  if (e.schedules && e.schedules.length > 0) {
+    e.schedules.map( (x) => x.timesAvailable ).forEach( (schedule) => {
+      schedule.forEach((time) => {
+        if (heatmap[time]) {
+          heatmap[time] += 1
+        } else {
+          heatmap[time] = 1
+        }
+      });
+    });
+  }
 
-  user1.forEach((time) => {
-    if (heatmap[time]) {
-      heatmap[time] += 1
-    } else {
-      heatmap[time] = 1
-    }
-  });
-
-  const user2 = [
-    "1511971200",
-    "1511974800",
-    "1511978400",
-    "1511982000",
-    "1511985600",
-    "1511989200",
-    "1511992800"
-  ]
-
-  user2.forEach((time) => {
-    if (heatmap[time]) {
-      heatmap[time] += 1
-    } else {
-      heatmap[time] = 1
-    }
-  });
-
-  const user3 = [
-    "1511971200",
-    "1511960400",
-    "1511964000",
-    "1511992800"
-  ];
-
-  user3.forEach((time) => {
-    if (heatmap[time]) {
-      heatmap[time] += 1
-    } else {
-      heatmap[time] = 1
-    }
-  });
 
   console.log(`JSON.stringify(heatmap): ${JSON.stringify(heatmap)}`);
 
   res.render("heatmap", {
     heatmapData: heatmap,
     event: {
-      id: req.params.id,
-      title: "Hello World",
-      description: "foo bar",
-      participants: ["hello@world.com", "123"]
+      id: e.id,
+      title: e.name,
+      description: e.description,
+      participants: e.participants,
     }
   });
 });
 
 app.get('/participate/:id', require_authentication, function (req, res) {
-  if (res.locals.user === undefined) {
-    res.redirect('/login');
-  }
+  console.log(`JSON.stringify(eventsDB[req.params.id]): ${JSON.stringify(eventsDB[req.params.id])}`);
   res.render("participant", {
     startDate: 1511981829,
     eventId: req.params.id || 123,
-    userId: 456,
-    event: {
-      title: "Study Group",
-      description: "foo bar",
-      organizer: {
-        name: "John Doe",
-        email: "jd2017@gmail.com"
-      }
-    }
+    userId: 0,
+    event: eventsDB[req.params.id]
   });
+});
+
+app.post('/participate/:id', require_authentication, function (req, res) {
+  const email = req.session.user.email;
+  const e = eventsDB[req.params.id];
+
+  const new_schedule = {
+    email: email,
+    timesAvailable: req.body.timesAvailable
+  }
+
+  if (e.schedules.length < 1) {
+    e.schedules.push(new_schedule);
+  } else if (e.schedules.map( x => x.email ).indexOf(email) > -1) { // existing schedule
+    e.schedules.forEach(function (schedule, index) {
+      if (schedule.email === email) {
+        e.schedules[index] = new_schedule;
+      }
+    })
+  } else {
+    e.schedules.push(new_schedule)
+  }
+
+  res.send(true);
+
+  console.log(`JSON.stringify(e): ${JSON.stringify(e)}`);
+
+
 });
 
 // helper functions

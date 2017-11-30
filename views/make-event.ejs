@@ -41,7 +41,7 @@
 
 <div id="top">
 	<h1>Make an Event</h1>
-	<button>Cancel</button>
+	<button id="cancel">Cancel</button>
 	<button id="submit">Submit</button>
 </div>
 
@@ -126,16 +126,25 @@
 		});
 
 		function main() {
+			$("#cancel").click(function (e) {
+				window.location = "/dashboard";
+			});
+
 			$("#submit").click(function (e) {
 				const payload = {
-					timesAvailable: timesSelected,
-					participants: participants,
-					title: $("form #title").val(),
+					startDate: calendarStartDate,
+					name: $("form #title").val(),
 					description: $("form textarea").val(),
-					urlForIcon: $("form #icon_url").val()
+					urlForIcon: $("form #icon_url").val(),
+					participants: participants
 				};
 
-				console.log(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
+				$.post("/event/new", payload, function (err, data) {
+					if (err) {console.log(`err: ${err}`);}
+					window.location = '/dashboard';
+				})
+
+				alert(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
 			})
 		}
 	</script>
