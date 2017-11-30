@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/bin/www",
+    "mail": "python mail/mail.py &",
     "test": "karma start ./karma.conf.js"
   },
   "private": true,
