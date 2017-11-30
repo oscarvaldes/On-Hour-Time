@@ -129,12 +129,17 @@
 			$("#cancel").click(function (e) {
 				window.location = "/dashboard";
 			});
-			
+
 			$("#submit").click(function (e) {
 				const payload = {
 					finalSelection: finalSelection,
 					eventId: <%= locals.event.id || 1 %>
 				};
+
+				$.post("http://localhost:3000/sendFinalEmail", payload, function (err, data) {
+					if (err) {alert("failure"); return}
+					window.location = "/dashboard"
+				});
 
 				alert(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
 			});

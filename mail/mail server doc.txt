@@ -1,0 +1,32 @@
+Mail Server Doc
+
+Endpoint for sending the initial invite: http://127.0.0.1:5000/initial
+Example JSON body:
+{
+	"name": "Software Engineering Study Session",
+	"url": "onhourtime.com",
+	"participants": ["ac31128@uga", "andychow@uga.edu],
+	"creator": "Andy Chow"
+}
+
+Endpoint for sending the final invite: http://127.0.0.1:5000/final
+Example JSON body:
+{
+	"name" : "Software Engineering Study Session",
+	"begin" : "20171201 16:00:00",
+	"end" : "20171201 19:00:00",
+	"location" : "Boyd Science Library Room 307",
+	"description": "Reviewing material for final exam",
+	"participants" : 
+	{
+		"achowie@hotmail.com" : "Andy Chow",
+		"ac31128@uga" : "Another Andy"
+	},
+	"creator_name" : "Andy Chow",
+	"creator_email": "ac31128@uga.edu"
+}	
+
+
+Headers
+Key				Value
+Content-Type	application/json

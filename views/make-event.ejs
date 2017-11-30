@@ -135,16 +135,17 @@
 					startDate: calendarStartDate,
 					name: $("form #title").val(),
 					description: $("form textarea").val(),
-					urlForIcon: $("form #icon_url").val(),
-					participants: participants
+					participants: participants,
 				};
 
-				$.post("/event/new", payload, function (err, data) {
+				const endpoint = "/event/new";
+
+				$.post(endpoint, payload, function (err, data) {
 					if (err) {console.log(`err: ${err}`);}
 					window.location = '/dashboard';
-				})
+				});
 
-				alert(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
+				console.log(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
 			})
 		}
 	</script>

@@ -8,9 +8,11 @@ var express = require('express'),
     scheduler = require('./routes/backend-scheduler-service'),
     login = require('./routes/login-service'),
     register = require('./routes/register-service'),
+    moment = require('moment'),
     app = express();
 
 const session = require('express-session');
+const request = require('request');
 
 app.use(cors());
 // app.use(favicon('./client/favicon.ico'));
@@ -55,10 +57,10 @@ app.post('/login', function (req, res, next) {
   console.log('password', password);
 
   let usersDB = {
-    "aj@gmail.com": ["foo", {id:0, name: "AJ", "email": "aj@gmail.com"}],
-    "syed@gmail.com": ["bar", {id: 1, name: "Syed", "email": "syed@gmail.com"}],
-    "oscar@gmail.com": ["hello", {id: 2, name: "Oscar", "email": "oscar@gmail.com"}],
-    "andy@gmail.com": ["world", {id: 3, name: "Andy", "email": "andy@gmail.com"}]
+    "anuragb2010@gmail.com": ["foo", {id:0, name: "AJ", "email": "anuragb2010@gmail.com"}],
+    "swh48554@uga.edu": ["bar", {id: 1, name: "Syed", "email": "swh48554@uga.edu"}],
+    "oscarito@uga.edu": ["hello", {id: 2, name: "Oscar", "email": "oscarito@uga.edu"}],
+    "ac31128@uga.edu": ["world", {id: 3, name: "Andy", "email": "ac31128@uga.edu"}]
   }
 
   if (usersDB.hasOwnProperty(email) && usersDB[email][0] == password) {
@@ -83,9 +85,9 @@ eventsDB = [{
     description: "foo bar",
     organizer: {
       name: "John Doe",
-      email: "aj@gmail.com"
+      email: "anuragb2010@gmail.com"
     },
-    participants: ["syed@gmail.com", "oscar@gmail.com", "andy@gmail.com"],
+    participants: ["swh48554@uga.edu", "oscarito@uga.edu", "ac31128@uga.edu"],
     schedules: []
 }]
 
@@ -109,8 +111,83 @@ app.post('/event/new', require_authentication, function (req, res) {
     email: res.locals.user.email
   }
   eventsDB.push(req.body);
-  console.log(`JSON.stringify(eventsDB): ${JSON.stringify(eventsDB)}`);
-  res.redirect('/dashboard');
+
+  const payload = {
+    name: req.body.name,
+    // TODO: BRAH DON"T FORGET HTIS SHIT
+    url: "http://1b82c943.ngrok.io" + "/event/" + req.body.id,
+    participants: req.body.participants.join(","),
+    creator: req.body.organizer.name
+  };
+
+  console.log(`JSON.stringify(payload): ${JSON.stringify(payload)}`);
+
+  // Set the headers
+  var headers = {
+      'User-Agent':       'Super Agent/0.0.1',
+      'Content-Type':     'application/json'
+  }
+
+  // Configure the request
+  var options = {
+      url: 'http://localhost:5000/initial',
+      method: 'POST',
+      headers: headers,
+      form: payload
+  }
+
+  // Start the request
+  request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          // Print out the response body
+          console.log(body);
+      }
+  });
+});
+
+app.post('/sendFinalEmail', function (req, res) {
+  const finalSelection = req.body.finalSelection;
+  const eventId = Number(req.body.eventId);
+
+  console.log(`JSON.stringify(req.body): ${JSON.stringify(req.body)}`);
+
+  // TODO
+  const payload = {
+    name: eventsDB[eventId].name,
+    begin: moment.unix(finalSelection).format('YYYYMMDD HH:mm:ss'),
+    end: moment.unix(finalSelection).add(1, 'h').format('YYYYMMDD HH:mm:ss'),
+    location: "Boyd Graduate Resarch Center, Room 328",
+    participants: eventsDB[eventId].participants.join(","),
+    description: eventsDB[eventId].description,
+    creator_name: eventsDB[eventId].organizer.name,
+    creator_email: eventsDB[eventId].organizer.email
+  }
+
+  // Set the headers
+  var headers = {
+      'User-Agent':       'Super Agent/0.0.1',
+      'Content-Type':     'application/json'
+  }
+
+  // Configure the request
+  var options = {
+      url: 'http://localhost:5000/final',
+      method: 'POST',
+      headers: headers,
+      form: payload
+  }
+
+  // Start the request
+  request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          // Print out the response body
+          console.log(body);
+      }
+  });
+
+
+  console.log(`JSON.stringify(req.body): ${JSON.stringify(req.body)}`);
+  res.send(req.body);
 });
 
 app.get('/event/:id', require_authentication, function (req, res) {
@@ -165,6 +242,10 @@ app.post('/participate/:id', require_authentication, function (req, res) {
   const new_schedule = {
     email: email,
     timesAvailable: req.body.timesAvailable
+  }
+
+  if (!e.schedules) {
+    e.schedules = []
   }
 
   if (e.schedules.length < 1) {
