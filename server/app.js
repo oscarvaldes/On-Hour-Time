@@ -31,10 +31,10 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, '../public')));
-// app.use(express.static(path.join(__dirname, '../client')));
-// app.use('/scheduler', scheduler);
-// app.use('/login', login);
-// app.use('/register', register);
+app.use(express.static(path.join(__dirname, '../client2')));
+app.use('/scheduler', scheduler);
+app.use('/login2', login);
+app.use('/register', register);
 
 app.use(function setAuthLocal(req, res, next) {
   if (req.session && req.session.user) {
@@ -115,7 +115,7 @@ app.post('/event/new', require_authentication, function (req, res) {
   const payload = {
     name: req.body.name,
     // TODO: BRAH DON"T FORGET HTIS SHIT
-    url: "http://1b82c943.ngrok.io" + "/event/" + req.body.id,
+    url: "http://ff54432b.ngrok.io " + "/event/" + req.body.id,
     participants: req.body.participants.join(","),
     creator: req.body.organizer.name
   };
